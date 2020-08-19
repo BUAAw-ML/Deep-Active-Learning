@@ -7,7 +7,7 @@ from scipy.spatial import distance_matrix
 from neural.util.utils import *
 from sklearn.metrics.pairwise import cosine_similarity
 import torch.nn.functional as F
-from .unsupervised import *
+from .utils import *
 
 class Acquisition(object):
 

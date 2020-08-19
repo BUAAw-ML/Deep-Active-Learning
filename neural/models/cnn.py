@@ -1,14 +1,9 @@
 import torch
 import torch.nn as nn
-import torch.autograd as autograd
-from torch.autograd import Variable
-import torch.nn.functional as F
 
-import neural
 from neural.util import Initializer
 from neural.util import Loader
 from neural.modules import EncoderCNN
-from neural.modules import EncoderCNN_Pair
 
 class CNN(nn.Module):
     

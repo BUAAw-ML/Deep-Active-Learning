@@ -29,7 +29,7 @@ def parse_args():
     parser.add_argument('--sampling_batch_size', type=int, default=500, help='')
     parser.add_argument('--with_sim_feature', type=bool, default=True, help='whether use sim_feature in deep model')
     parser.add_argument('--word_embedding_dim', type=int, default=300, help='')
-    parser.add_argument('--pretrained_word_embedding', default="../../../../home/zyc/datasets/answer_selection/YahooCQA/pretrained-word-embedding/glove.6B.300d.txt", help='')
+    parser.add_argument('--pretrained_word_embedding', default="../datasets/pretrained-word-embedding/glove.6B.300d.txt", help='')  #"../../../../home/zyc/datasets/answer_selection/YahooCQA/pretrained-word-embedding/glove.6B.300d.txt"
     parser.add_argument('--dropout', type=float, default=0.5, help='')
     parser.add_argument('--word_hidden_dim', type=int, default=75, help='')
     parser.add_argument('--learning_rate', type=float, default=0.001, help='')

@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 class EncoderCNN(nn.Module):
 
     def __init__(self, vocab_size, embedding_size, out_channels = 100, dropout_p=0):
@@ -11,7 +12,6 @@ class EncoderCNN(nn.Module):
         self.out_channels = out_channels
         self.dropout = nn.Dropout(p=dropout_p)
 
-        
         in_channels = embedding_size
         self.cnn1 = nn.Conv1d(in_channels, out_channels, kernel_size=3,
                              padding = 1)
@@ -21,8 +21,6 @@ class EncoderCNN(nn.Module):
                              padding = 1)
 
     def forward(self, words, input_lengths=None):
-        
-        #batch_size, _ = words.size()
         
         embedded = words
         embedded = self.dropout(embedded)

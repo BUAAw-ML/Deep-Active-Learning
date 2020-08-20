@@ -22,7 +22,7 @@ bar_legend = 0
 
 global website
 # website = "10.2.26.117" # 内网ip
-website = "http://charts.nas.buaanlsde.cn/charts"
+website = "http://charts.nas.buaanlsde.cn"
 
 # Update line chart
 def updateLineChart(mrr, sm, gp_name = group_name, max = max_performance):

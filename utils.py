@@ -2,6 +2,7 @@ import numpy as np
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics.pairwise import cosine_similarity
 
+
 def embed_feature(dataset, pretrained):
 	questions = [dataset['words_q'] for i in range(0, len(dataset), 5)]
 	features = np.zeros(shape=(len(questions), pretrained.shape[1]))
@@ -59,7 +60,7 @@ def ger_representive(dataset, pretrained, ini_num, K):
 	KSim_set = [[] for i in range(avg_embedding.shape[0])]
 	# scores = np.array([np.sum(similarity[i]) for i in range(similarity.shape[0])])
 	scores = np.sum(similarity, axis=1)
-	first = [True] * avg_embedding.shape[0] # 标记是否每个sample的KSim样本数目第一次达到K
+	first = [True] * avg_embedding.shape[0]
 	while len(ini_indices) < ini_num:
 		indice = np.argmax(scores)
 		scores[indice] = -float('inf')
@@ -119,8 +120,9 @@ def ger_submodular(dataset, pretrained, ini_num):
 		ini_indices.append(max_indice)
 	return np.array(ini_indices)
 
+
 def ger_submodular2(similarity, label, unlabel, uncertainty_sample, sel_num=10):
-	# 这个是 name entity recognition中采用的版本，相比较前面的一个版本变为了要标注的样本在已标记的样本上计算收益
+	#the version used in: name entity recognition. With the previous version, the revenue is calculated on the labeled sample.
 	# def G(add_ele):
 	# 	print(add_ele)
 	#
@@ -130,7 +132,7 @@ def ger_submodular2(similarity, label, unlabel, uncertainty_sample, sel_num=10):
 	# 	return np.sum(add_max - unlabel_max)
 
 	sel_indices = []
-	unlabel_max = np.max(similarity[unlabel][:, label], axis=1) # 由于在已标记样本基础上计算收益，所以不初始化为0
+	unlabel_max = np.max(similarity[unlabel][:, label], axis=1)
 	for i in range(sel_num):
 		max_gain = 0
 		max_indice = -1
@@ -158,17 +160,15 @@ def ger_submodular2(similarity, label, unlabel, uncertainty_sample, sel_num=10):
 	return np.array(sel_indices)
 
 
-#2019-5-10
+
 def ger_submodular(similarity, unlabel, uncertainty_sample, sel_num = 20):
-	# similarity: 预先计算的 train_data的pair similarity
-	# unlabel: 未标注索引集合
-	# uncertainty_sample: 不确定性采样索引集合
+
 	def G(add_ele):
 		add_max = similarity[unlabel][:, add_ele]
 		return np.sum(np.maximum(add_max - unlabel_max, 0))
 
 	sel_indices = []
-	unlabel_max = np.zeros(shape=(len(unlabel)))  # unlabel中每个元素对当前sel_indices中元素的最大similarity值
+	unlabel_max = np.zeros(shape=(len(unlabel)))
 	for i in range(sel_num):
 		max_gain = 0
 		max_indice = -1
@@ -193,9 +193,6 @@ def ger_submodular(similarity, unlabel, uncertainty_sample, sel_num = 20):
 
 
 def ger_submodular_diversity(similarity, unlabel, uncertainty_sample, topic, sel_num = 20, topic_num=3):
-    # unlabel uncertainty_sample: 和原来一样
-    # topic: len(topic) == len(uncertainty_sample) 是每个uncertainty_sample的topic标签
-    # topic_num: 目前应该是3，topic参数中的数字范围应该是[0, topic_num - 1]
     def G(add_ele, ele_topic):
         return np.sqrt(topic_gain[ele_topic] + np.mean(similarity[unlabel][:, add_ele])) - np.sqrt(topic_gain[ele_topic])
     sel_indices = []
@@ -222,7 +219,6 @@ def ger_submodular_diversity(similarity, unlabel, uncertainty_sample, topic, sel
     return np.array(sel_indices)
 
 
-# 2019-5-24 新的根据对全集的覆盖得到的样本, 其中lamda为超参数需要调整， 需要大于0,
 def ger_submodular_cover(similarity, unlabel, uncertainty_sample, lamda=0.25, sel_num=20):
     print("ger_submodular_cover")
     def G(add_ele):

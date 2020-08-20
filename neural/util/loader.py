@@ -133,10 +133,10 @@ class Loader(object):
             'word_embeds': word_embeds
         }
 
-        npr = np.random.RandomState(seed=0)
-        data_index = npr.permutation(int(len(test_data_final) / answer_count))
-
-        test_data_final = [test_data_final[no] for sampleID in data_index
-                          for no in range(sampleID * answer_count, sampleID * answer_count + 5)]
+        # npr = np.random.RandomState(seed=0)
+        # data_index = npr.permutation(int(len(test_data_final) / answer_count))
+        #
+        # test_data_final = [test_data_final[no] for sampleID in data_index
+        #                   for no in range(sampleID * answer_count, sampleID * answer_count + 5)]
 
         return train_data_final, test_data_final, mappings

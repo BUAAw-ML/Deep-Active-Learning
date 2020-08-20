@@ -2,7 +2,6 @@
 import json
 import urllib3, urllib
 
-
 global group_name
 group_name = "[5.25-?]CNN+PFS-18000+MRR+5000+150"
 
@@ -21,8 +20,9 @@ global bar_legend
 bar_legend = 0
 
 global website
-# website = "10.2.26.117" # 内网ip
+# website = "10.2.26.117" # internal network ip
 website = "http://charts.nas.buaanlsde.cn"
+
 
 # Update line chart
 def updateLineChart(mrr, sm, gp_name = group_name, max = max_performance):
@@ -47,6 +47,7 @@ def updateLineChart(mrr, sm, gp_name = group_name, max = max_performance):
 
     urls = website + '/updateChart/?' + refs
     http.request('GET', urls)
+
 
 # Update histogram
 def updateBarChart(data):

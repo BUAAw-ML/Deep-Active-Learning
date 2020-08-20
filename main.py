@@ -55,6 +55,21 @@ def main(args):
             "group_name": "[9.13-?]BiLSTM+FD+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../datasets/YahooCQA/data-FD/",
+            "acquire_method": "no-dete",
+            "sub_acquire_method": "DAL",
+            "unsupervised_method": '',
+            "submodular_k": 10,
+            "num_acquisitions_round": 50,
+            "init_question_num": 32,
+            "acquire_question_num_per_round": 32,
+            "warm_start_random_seed": 0,
+            "sample_method": "No-Deterministic+DAL+0",
+        },
+        {
+            "model_name": "BiLSTM",
+            "group_name": "[9.13-?]BiLSTM+FD+MRR+160+160",
+            "max_performance": 0.80,
+            "data_path": "../datasets/YahooCQA/data-FD/",
             "acquire_method": "random",
             "sub_acquire_method": "",
             "unsupervised_method": '',
@@ -94,6 +109,36 @@ def main(args):
             "acquire_question_num_per_round": 32,
             "warm_start_random_seed": 16,
             "sample_method": "Random+16",
+        },
+        {
+            "model_name": "BiLSTM",
+            "group_name": "[9.13-?]BiLSTM+FD+MRR+160+160",
+            "max_performance": 0.80,
+            "data_path": "../datasets/YahooCQA/data-FD/",
+            "acquire_method": "no-dete",
+            "sub_acquire_method": "DAL",
+            "unsupervised_method": '',
+            "submodular_k": 10,
+            "num_acquisitions_round": 50,
+            "init_question_num": 32,
+            "acquire_question_num_per_round": 32,
+            "warm_start_random_seed": 32,
+            "sample_method": "No-Deterministic+DAL+32",
+        },
+        {
+            "model_name": "BiLSTM",
+            "group_name": "[9.13-?]BiLSTM+FD+MRR+160+160",
+            "max_performance": 0.80,
+            "data_path": "../datasets/YahooCQA/data-FD/",
+            "acquire_method": "random",
+            "sub_acquire_method": "",
+            "unsupervised_method": '',
+            "submodular_k": 10,
+            "num_acquisitions_round": 50,
+            "init_question_num": 32,
+            "acquire_question_num_per_round": 32,
+            "warm_start_random_seed": 32,
+            "sample_method": "Random+32",
         },
     ]
 
@@ -265,6 +310,7 @@ def main(args):
         # print(method_result)
         # allMethods_results.append(method_result)
         shutil.rmtree(checkpoint_path)
+
 
 if __name__ == "__main__":
     args = parse_args()

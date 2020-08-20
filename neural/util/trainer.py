@@ -14,6 +14,7 @@ import math
 import time
 from tqdm import tqdm
 
+
 class Trainer(object):
 
     def __init__(self, model, model_name, tag_to_id, eval_every=1, usecuda=True,

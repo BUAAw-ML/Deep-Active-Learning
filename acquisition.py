@@ -9,6 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import torch.nn.functional as F
 from utils import *
 
+
 class Acquisition(object):
 
     def __init__(self, train_data, seed=0, usecuda=True, answer_count=5, cuda_device=0, batch_size=1000, submodular_k=1):
@@ -22,7 +23,8 @@ class Acquisition(object):
         self.batch_size = batch_size
         self.submodular_k = submodular_k
 
-        #-------------------------Random sampling-----------------------------
+
+    #-------------------------Random sampling-----------------------------
     def get_random(self, dataset, num_questions, returned=False):
 
             question_indices = [self.answer_count * x for x in range(self.questions_num)]
@@ -42,6 +44,7 @@ class Acquisition(object):
                 self.train_index.update(cur_indices)
             else:
                 return sample_q_indices
+
 
     #--------------------------some related active learning methods: var，margin，entropy，me-em，lc
     def get_sampling(self, dataset, model_path, num_questions,
@@ -526,173 +529,13 @@ class Acquisition(object):
 
             return dataset_pool, sample_q_indices
 
-    def get_DAL_evidence(self, dataset, model_path, num_questions,
-                nsamp=100,
-                model_name='',
-                returned=False,
-                threshold=10
-                ):
-
-        model = torch.load(model_path)
-        model.train(True)
-        tm = time.time()
-
-        new_dataset = [datapoint for j, datapoint in enumerate(dataset) if j not in list(self.train_index)]
-        new_datapoints = [j for j in range(len(dataset)) if j not in list(self.train_index)]
-        new_question_points = [new_datapoints[x * self.answer_count] for x in
-                               range(int(len(new_datapoints) / self.answer_count))]
-
-        data_batches = create_batches(new_dataset, batch_size=self.batch_size, order='no')
-
-        pt = 0
-        _delt_arr = []
-
-        for data in data_batches:
-
-            words_q = data['words_q']
-            words_a = data['words_a']
-
-            if self.usecuda:
-                words_q = Variable(torch.LongTensor(words_q)).cuda(self.cuda_device)
-                words_a = Variable(torch.LongTensor(words_a)).cuda(self.cuda_device)
-            else:
-                words_q = Variable(torch.LongTensor(words_q))
-                words_a = Variable(torch.LongTensor(words_a))
-
-            wordslen_q = data['wordslen_q']
-            wordslen_a = data['wordslen_a']
-
-            sort_info = data['sort_info']
-
-            tag_arr = []
-            score_arr = []
-            real_tag_arr = []
-            sigma_total = torch.zeros((nsamp, words_q.size(0)))
-
-            for itr in range(nsamp):
-
-                if model_name == 'BiLSTM':
-                    output = model(words_q, words_a, wordslen_q, wordslen_a)
-                elif model_name == 'CNN':
-                    output = model(words_q, words_a)
-
-                score = torch.max(F.softmax(output, dim=1), dim=1)[0].data.cpu().numpy().tolist()
-                tag = torch.max(output, dim=1)[1].data.cpu().numpy().tolist()
-
-                sigma_total[itr] = torch.sum(output, -1)
-
-                st = sorted(zip(sort_info, score, tag, data['tags']), key=lambda p: p[0])
-                _, origin_score, origin_tag, real_tag = zip(*st)
-
-                tag_arr.append(list(origin_tag))
-                score_arr.append(list(origin_score))
-                real_tag_arr.append(list(real_tag))
-
-            sigma = torch.mean(sigma_total, 0).data.cpu().numpy().tolist()
-
-            question_sigma = []
-            for i in range(int(len(sigma) / self.answer_count)):
-                temp = []
-                for j in range(self.answer_count):
-                    temp.append(sigma[i * self.answer_count + j])
-                question_sigma.append(temp)
-            question_sigma = np.mean(np.array(question_sigma), -1)
-
-            for i in range(len(score_arr)):
-                for j in range(len(score_arr[i])):
-                    if int(tag_arr[i][j]) == 0:
-                        score_arr[i][j] = 1 - score_arr[i][j]
-
-            # new_score_seq = np.array(score_arr).transpose(0, 1).tolist()
-            new_score_seq = []
-            for m in range(len(words_q)):
-                tp = []
-                for n in range(nsamp):
-                    tp.append(score_arr[n][m])
-                new_score_seq.append(tp)
-
-            cutted_score_seq = []
-            for i in range(int(len(new_score_seq) / self.answer_count)):
-                temp = []
-                for j in range(self.answer_count):
-                    temp.append(new_score_seq[i * self.answer_count + j])
-                cutted_score_seq.append(temp)
-
-            for index, item in enumerate(cutted_score_seq):   #shape: question_num, 5, nsamp
-
-                def rankedList(rList):
-                    rList = np.array(rList)
-                    gain = 2 ** rList - 1
-                    discounts = np.log2(np.arange(len(rList)) + 2)
-                    return np.sum(gain / discounts)
-
-                tp1 = np.transpose(np.array(item)).tolist()
-                dList = []
-                for i in range(len(tp1)):
-                    rL = sorted(tp1[i], reverse=True)
-                    dList.append(rankedList(rL))
-
-                item_arr = np.array(item)
-
-                t = np.mean(item_arr, axis=1)
-                rankedt = np.transpose(item_arr[(-t).argsort()]).tolist()  #nsamp, 5
-
-                dList2 = []
-                for i in range(len(rankedt)):
-                    dList2.append(rankedList(rankedt[i]))
-
-                obj = {}
-                obj["q_id"] = pt
-                obj["el"] = np.mean(np.array(dList)) - np.mean(np.array(dList2))
-                obj["sigma"] = question_sigma[index]
-
-                if obj["el"] < 0:
-                    print("elo error")
-                    exit()
-
-                _delt_arr.append(obj)
-                pt += 1
-
-        # threshold = 10
-        print(threshold)
-        if len(_delt_arr) > int(threshold * num_questions):
-            _delt_arr = sorted(_delt_arr, key=lambda o: o["el"], reverse=True)[:int(threshold * num_questions)]
-        else:
-            _delt_arr = sorted(_delt_arr, key=lambda o: o["el"], reverse=True)
-        _delt_arr = sorted(_delt_arr, key=lambda o: o["sigma"])
-
-        cur_indices = set()
-        sample_q_indices = set()
-        i = 0
-
-        while len(cur_indices) < num_questions * self.answer_count:
-            sample_q_indices.add(new_question_points[_delt_arr[i]["q_id"]])
-            for k in range(self.answer_count):
-                cur_indices.add(new_question_points[_delt_arr[i]["q_id"]] + k)
-            i += 1
-
-        if not returned:
-            print("Active")
-            self.train_index.update(cur_indices)
-            print('time consuming： %d seconds:' % (time.time() - tm))
-        else:
-            sorted_cur_indices = list(cur_indices)
-            sorted_cur_indices.sort()
-            dataset_pool = []
-            for m in range(len(sorted_cur_indices)):
-                item = dataset[sorted_cur_indices[m]]
-                item["index"] = sorted_cur_indices[m]
-                dataset_pool.append(item)
-
-            return dataset_pool, sample_q_indices
-
-    # def get_DAL_evidence2(self, dataset, model_path, num_questions,
-    #                      nsamp=100,
-    #                      model_name='',
-    #                      returned=False,
-    #                      ):
+    # def get_DAL_evidence(self, dataset, model_path, num_questions,
+    #             nsamp=100,
+    #             model_name='',
+    #             returned=False,
+    #             threshold=10
+    #             ):
     #
-    #     print("evidence2")
     #     model = torch.load(model_path)
     #     model.train(True)
     #     tm = time.time()
@@ -727,6 +570,7 @@ class Acquisition(object):
     #         tag_arr = []
     #         score_arr = []
     #         real_tag_arr = []
+    #         sigma_total = torch.zeros((nsamp, words_q.size(0)))
     #
     #         for itr in range(nsamp):
     #
@@ -738,12 +582,24 @@ class Acquisition(object):
     #             score = torch.max(F.softmax(output, dim=1), dim=1)[0].data.cpu().numpy().tolist()
     #             tag = torch.max(output, dim=1)[1].data.cpu().numpy().tolist()
     #
+    #             sigma_total[itr] = torch.sum(output, -1)
+    #
     #             st = sorted(zip(sort_info, score, tag, data['tags']), key=lambda p: p[0])
     #             _, origin_score, origin_tag, real_tag = zip(*st)
     #
     #             tag_arr.append(list(origin_tag))
     #             score_arr.append(list(origin_score))
     #             real_tag_arr.append(list(real_tag))
+    #
+    #         sigma = torch.mean(sigma_total, 0).data.cpu().numpy().tolist()
+    #
+    #         question_sigma = []
+    #         for i in range(int(len(sigma) / self.answer_count)):
+    #             temp = []
+    #             for j in range(self.answer_count):
+    #                 temp.append(sigma[i * self.answer_count + j])
+    #             question_sigma.append(temp)
+    #         question_sigma = np.mean(np.array(question_sigma), -1)
     #
     #         for i in range(len(score_arr)):
     #             for j in range(len(score_arr[i])):
@@ -765,7 +621,7 @@ class Acquisition(object):
     #                 temp.append(new_score_seq[i * self.answer_count + j])
     #             cutted_score_seq.append(temp)
     #
-    #         for index, item in enumerate(cutted_score_seq):  # shape: question_num, 5, nsamp
+    #         for index, item in enumerate(cutted_score_seq):   #shape: question_num, 5, nsamp
     #
     #             def rankedList(rList):
     #                 rList = np.array(rList)
@@ -782,7 +638,7 @@ class Acquisition(object):
     #             item_arr = np.array(item)
     #
     #             t = np.mean(item_arr, axis=1)
-    #             rankedt = np.transpose(item_arr[(-t).argsort()]).tolist()  # nsamp, 5
+    #             rankedt = np.transpose(item_arr[(-t).argsort()]).tolist()  #nsamp, 5
     #
     #             dList2 = []
     #             for i in range(len(rankedt)):
@@ -791,7 +647,7 @@ class Acquisition(object):
     #             obj = {}
     #             obj["q_id"] = pt
     #             obj["el"] = np.mean(np.array(dList)) - np.mean(np.array(dList2))
-    #             obj["sigma"] = np.sum(item)
+    #             obj["sigma"] = question_sigma[index]
     #
     #             if obj["el"] < 0:
     #                 print("elo error")
@@ -800,8 +656,8 @@ class Acquisition(object):
     #             _delt_arr.append(obj)
     #             pt += 1
     #
-    #     threshold = 1.5
-    #
+    #     # threshold = 10
+    #     print(threshold)
     #     if len(_delt_arr) > int(threshold * num_questions):
     #         _delt_arr = sorted(_delt_arr, key=lambda o: o["el"], reverse=True)[:int(threshold * num_questions)]
     #     else:
@@ -832,6 +688,7 @@ class Acquisition(object):
     #             dataset_pool.append(item)
     #
     #         return dataset_pool, sample_q_indices
+
 
     def coreset_sample(self, data, num_questions, model_path='', model_name='', feature_type='query'):
         def greedy_k_center(labeled, unlabeled, amount):
@@ -944,17 +801,13 @@ class Acquisition(object):
                 cur_indices.add(id * self.answer_count + k)
         self.train_index.update(cur_indices)
 
-    # 只考虑问题的动态编码的余弦相似度矩阵
+
     def getSimilarityMatrix(self, dataset, model_path='', model_name='', batch_size=1000, type='query',
                             feature_only=False):
-        '''
-        :param feature_only: 表示返回特征还是相似度矩阵
-        '''
 
         model = torch.load(model_path)
         model.train(False)
 
-        # 对剩余样本池创建batch
         data_batches = create_batches(dataset, batch_size=batch_size, order='no')
 
         temp_q = []
@@ -1007,6 +860,7 @@ class Acquisition(object):
         similarity = cosine_similarity(sample_feature) + 1
         return similarity
 
+
     #——————————————————————————————Invoking a sampling strategy to obtain data————————————————————————————————————————————
     def obtain_data(self, data, model_path=None, model_name=None, acquire_questions_num=2,
                     method='random', sub_method='', unsupervised_method='', round = 0):
@@ -1049,13 +903,13 @@ class Acquisition(object):
 
                 unlabel = []
                 for i in range(len(temp) // self.answer_count):
-                    unlabel.append(temp[i * self.answer_count] // self.answer_count)  # 未标注的问题编号
+                    unlabel.append(temp[i * self.answer_count] // self.answer_count)
 
                 print(len(unlabel))
 
                 label = []
                 for i in range(len(temp_l) // self.answer_count):
-                    label.append(temp_l[i * self.answer_count] // self.answer_count)  # 标注的问题编号
+                    label.append(temp_l[i * self.answer_count] // self.answer_count)
                 print(len(label))
 
                 candidate_questions_num = len(unlabel) if len(unlabel) < acquire_questions_num * self.submodular_k \
@@ -1068,7 +922,7 @@ class Acquisition(object):
                                                                          model_name=model_name, returned=True)
 
                 list(sample_q_indices).sort()
-                uncertainty_sample = [id // self.answer_count for id in sample_q_indices]  #采样到的问题编号
+                uncertainty_sample = [id // self.answer_count for id in sample_q_indices]
 
                 #dynamic_encoder
                 # #    type    :    1.query    2.q-a-concat   3.q-a-concat-mean    4.mean-var

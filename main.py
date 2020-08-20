@@ -50,7 +50,21 @@ def main(args):
     task_seq = [
         # acquire_method(sub_acquire_method): random(""), no-dete("DAL","BALD"), dete("coreset","entropy",...)
         # ../../datasets/answer_selection/YahooCQA/data/data-FD/
-
+        {
+            "model_name": "BiLSTM",
+            "group_name": "[9.13-?]BiLSTM+FD+MRR+160+160",
+            "max_performance": 0.80,
+            "data_path": "../datasets/YahooCQA/data-FD/",
+            "acquire_method": "random",
+            "sub_acquire_method": "",
+            "unsupervised_method": '',
+            "submodular_k": 10,
+            "num_acquisitions_round": 50,
+            "init_question_num": 32,
+            "acquire_question_num_per_round": 32,
+            "warm_start_random_seed": 0,
+            "sample_method": "Random+0",
+        },
         {
             "model_name": "BiLSTM",
             "group_name": "[9.13-?]BiLSTM+FD+MRR+160+160",
@@ -63,10 +77,24 @@ def main(args):
             "num_acquisitions_round": 50,
             "init_question_num": 32,
             "acquire_question_num_per_round": 32,
-            "warm_start_random_seed": 0,
-            "sample_method": "No-Deterministic+DAL+0",
+            "warm_start_random_seed": 16,
+            "sample_method": "No-Deterministic+DAL+16",
         },
-
+        {
+            "model_name": "BiLSTM",
+            "group_name": "[9.13-?]BiLSTM+FD+MRR+160+160",
+            "max_performance": 0.80,
+            "data_path": "../datasets/YahooCQA/data-FD/",
+            "acquire_method": "random",
+            "sub_acquire_method": "",
+            "unsupervised_method": '',
+            "submodular_k": 10,
+            "num_acquisitions_round": 50,
+            "init_question_num": 32,
+            "acquire_question_num_per_round": 32,
+            "warm_start_random_seed": 16,
+            "sample_method": "Random+16",
+        },
     ]
 
     allMethods_results = []   #Record the performance results of each method during active learning

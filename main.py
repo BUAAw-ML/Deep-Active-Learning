@@ -53,7 +53,7 @@ def main(args):
 
         {
             "model_name": "BiLSTM",
-            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
+            "group_name": "[08.20]BiLSTM+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../datasets/YahooCQA/data-FD/",
             "acquire_method": "no-dete",

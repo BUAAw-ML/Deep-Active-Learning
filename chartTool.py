@@ -20,6 +20,9 @@ max_performance = "0"
 global bar_legend
 bar_legend = 0
 
+global website
+# website = "10.2.26.117" # 内网ip
+website = "http://charts.nas.buaanlsde.cn/charts"
 
 # Update line chart
 def updateLineChart(mrr, sm, gp_name = group_name, max = max_performance):
@@ -42,7 +45,7 @@ def updateLineChart(mrr, sm, gp_name = group_name, max = max_performance):
 
     refs = urllib.parse.urlencode(info)
 
-    urls = '10.2.26.117/updateChart/?' + refs
+    urls = website + '/updateChart/?' + refs
     http.request('GET', urls)
 
 # Update histogram
@@ -63,5 +66,5 @@ def updateBarChart(data):
 
     refs = urllib.parse.urlencode(info)
 
-    urls = '10.2.26.117/updateChart/?' + refs
+    urls = website + '/updateChart/?' + refs
     http.request('GET', urls)

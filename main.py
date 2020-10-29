@@ -55,7 +55,7 @@ def main(args):
             "model_name": "BiLSTM",
             "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
             "max_performance": 0.80,
-            "data_path": "../datasets/YahooCQA/data-Pets/",
+            "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
             "sub_acquire_method": "BALD",
             "unsupervised_method": '',

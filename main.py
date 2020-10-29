@@ -53,9 +53,9 @@ def main(args):
 
         {
             "model_name": "BiLSTM",
-            "group_name": "[9.13-?]BiLSTM+FD+MRR+160+160",
+            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
             "max_performance": 0.80,
-            "data_path": "../datasets/YahooCQA/data-FD/",
+            "data_path": "../datasets/YahooCQA/data-Pets/",
             "acquire_method": "no-dete",
             "sub_acquire_method": "BALD",
             "unsupervised_method": '',
@@ -63,24 +63,10 @@ def main(args):
             "num_acquisitions_round": 50,
             "init_question_num": 32,
             "acquire_question_num_per_round": 32,
-            "warm_start_random_seed": 16,
-            "sample_method": "No-Deterministic+BALD+16",
+            "warm_start_random_seed": 0,
+            "sample_method": "No-Deterministic+BALD_+0",
         },
-        {
-            "model_name": "BiLSTM",
-            "group_name": "[9.13-?]BiLSTM+FD+MRR+160+160",
-            "max_performance": 0.80,
-            "data_path": "../datasets/YahooCQA/data-FD/",
-            "acquire_method": "no-dete",
-            "sub_acquire_method": "BALD",
-            "unsupervised_method": '',
-            "submodular_k": 10,
-            "num_acquisitions_round": 50,
-            "init_question_num": 32,
-            "acquire_question_num_per_round": 32,
-            "warm_start_random_seed": 32,
-            "sample_method": "No-Deterministic+BALD+32",
-        },
+
     ]
 
     allMethods_results = []   #Record the performance results of each method during active learning

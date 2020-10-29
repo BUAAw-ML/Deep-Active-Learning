@@ -23,7 +23,6 @@ class Acquisition(object):
         self.batch_size = batch_size
         self.submodular_k = submodular_k
 
-
     #-------------------------Random sampling-----------------------------
     def get_random(self, dataset, num_questions, returned=False):
 

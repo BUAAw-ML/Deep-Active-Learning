@@ -753,7 +753,7 @@ class Acquisition(object):
                     elif sub_method == 'DAL':
                         self.get_DAL(data, model_path, acquire_questions_num, model_name=model_name)
                     elif sub_method == 'DAL_evidence':
-                        self.get_DAL_evidence(data, model_path, acquire_questions_num, model_name=model_name, evi=True, threshold=self.submodular_k)
+                        self.get_DAL(data, model_path, acquire_questions_num, model_name=model_name, evi=True, threshold=self.submodular_k)
                     else:
                         self.get_sampling(data, model_path, acquire_questions_num, model_name=model_name, quota=sub_method,
                                           deterministic=False)

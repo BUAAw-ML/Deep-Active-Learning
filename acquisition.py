@@ -511,7 +511,7 @@ class Acquisition(object):
                 pt += 1
 
         if evi:
-            print("threshold:"%{threshold})
+            print("threshold:"%(threshold))
             if len(_delt_arr) > int(threshold * num_questions):
                 _delt_arr = sorted(_delt_arr, key=lambda o: o["el"], reverse=True)[:int(threshold * num_questions)]
             else:

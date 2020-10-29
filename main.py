@@ -58,13 +58,13 @@ def main(args):
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
             "sub_acquire_method": "BALD",
-            "unsupervised_method": '',
-            "submodular_k": 10,
+            "unsupervised_method": 'submodular',
+            "submodular_k": 1.5,
             "num_acquisitions_round": 50,
             "init_question_num": 32,
             "acquire_question_num_per_round": 32,
             "warm_start_random_seed": 0,
-            "sample_method": "No-Deterministic+BALD_+0",
+            "sample_method": "No-Deterministic+BALD_diversity1.5+0",
         },
 
     ]

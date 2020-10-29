@@ -916,9 +916,11 @@ class Acquisition(object):
 
                 if method == 'no-dete':
                     if sub_method == 'DAL':
-                        dataset_pool, sample_q_indices = self.get_DAL(data, model_path,
-                                                                         candidate_questions_num,
+                        dataset_pool, sample_q_indices = self.get_DAL(data, model_path,candidate_questions_num,
                                                                          model_name=model_name, returned=True)
+                    elif sub_method == 'BALD':
+                        dataset_pool, sample_q_indices = self.get_BALD(data, model_path, candidate_questions_num,
+                                                                       model_name=model_name, returned=True)
 
                 list(sample_q_indices).sort()
                 uncertainty_sample = [id // self.answer_count for id in sample_q_indices]

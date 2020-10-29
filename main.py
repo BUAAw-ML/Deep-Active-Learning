@@ -64,7 +64,7 @@ def main(args):
             "init_question_num": 32,
             "acquire_question_num_per_round": 32,
             "warm_start_random_seed": 0,
-            "sample_method": "No-Deterministic+DAL_eviden1.5+0",
+            "sample_method": "No-Deterministic+DAL_evidenc1.5+0",
         },
 
 

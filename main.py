@@ -36,7 +36,7 @@ def parse_args():
     parser.add_argument('--target_size', type=int, default=2, help='')
     parser.add_argument('--word_out_channels', type=int, default=200, help='')
     parser.add_argument('--result_path', default="result/YahooCQA/",help='')
-    parser.add_argument('--device', type=int, default=[1], help='')
+    parser.add_argument('--device', type=int, default=[0], help='')
     parser.add_argument('--sampling_number', type=int, default=3, help='')
 
     args = parser.parse_args()
@@ -52,8 +52,8 @@ def main(args):
         # ../../datasets/answer_selection/YahooCQA/data/data-FD/
 
         {
-            "model_name": "BiLSTM",
-            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
@@ -67,8 +67,8 @@ def main(args):
             "sample_method": "No-Deterministic+BALD_evidence1.5+0",
         },
         {
-            "model_name": "BiLSTM",
-            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
@@ -82,8 +82,8 @@ def main(args):
             "sample_method": "No-Deterministic+BALD_evidence1.5+16",
         },
         {
-            "model_name": "BiLSTM",
-            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
@@ -97,8 +97,8 @@ def main(args):
             "sample_method": "No-Deterministic+BALD_evidence1.5+32",
         },
         {
-            "model_name": "BiLSTM",
-            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
@@ -112,8 +112,8 @@ def main(args):
             "sample_method": "No-Deterministic+BALD_evidence1.5+64",
         },
         {
-            "model_name": "BiLSTM",
-            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",

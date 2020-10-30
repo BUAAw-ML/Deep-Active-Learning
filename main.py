@@ -52,8 +52,8 @@ def main(args):
         # ../../datasets/answer_selection/YahooCQA/data/data-FD/
         #evidence, diversity
         {
-            "model_name": "BiLSTM",
-            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
@@ -67,8 +67,8 @@ def main(args):
             "sample_method": "No-Deterministic+BALD_submodular1.5+0",
         },
         {
-            "model_name": "BiLSTM",
-            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
@@ -82,8 +82,8 @@ def main(args):
             "sample_method": "No-Deterministic+BALD_submodular1.5+16",
         },
         {
-            "model_name": "BiLSTM",
-            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
@@ -97,8 +97,8 @@ def main(args):
             "sample_method": "No-Deterministic+BALD_submodular1.5+32",
         },
         {
-            "model_name": "BiLSTM",
-            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
@@ -112,8 +112,8 @@ def main(args):
             "sample_method": "No-Deterministic+BALD_submodular1.5+64",
         },
         {
-            "model_name": "BiLSTM",
-            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
@@ -126,7 +126,6 @@ def main(args):
             "warm_start_random_seed": 128,
             "sample_method": "No-Deterministic+BALD_submodular1.5+128",
         },
-
 
 
 

@@ -369,7 +369,7 @@ class Acquisition(object):
                 pt += 1
 
         if evi:
-            print("evidence_threshold:{}".format(threshold))
+            print("threshold:{}".format(threshold))
             if len(_delt_arr) > int(threshold * num_questions):
                 _delt_arr = sorted(_delt_arr, key=lambda o: o["delt"], reverse=True)[:int(threshold * num_questions)]
             else:

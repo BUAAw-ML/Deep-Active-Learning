@@ -57,14 +57,14 @@ def main(args):
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
-            "sub_acquire_method": "DAL_evidence",
+            "sub_acquire_method": "BALD_evidence",
             "unsupervised_method": '',
             "submodular_k": 1.5,
             "num_acquisitions_round": 50,
             "init_question_num": 32,
             "acquire_question_num_per_round": 32,
             "warm_start_random_seed": 0,
-            "sample_method": "No-Deterministic+DAL_evidenc1.5+0",
+            "sample_method": "No-Deterministic+BALD_evidenc1.5+0",
         },
 
 

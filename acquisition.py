@@ -818,12 +818,11 @@ class Acquisition(object):
 
                 #dynamic_encoder
                 # #    type    :    1.query    2.q-a-concat   3.q-a-concat-mean    4.mean-var
-                similarity_matrix = self.getSimilarityMatrix(data, model_path=model_path, model_name=model_name,
-                                                             type='query')
+                # similarity_matrix = self.getSimilarityMatrix(data, model_path=model_path, model_name=model_name,
+                #                                              type='query')
+                # self.get_submodular2(similarity_matrix, label, unlabel, uncertainty_sample, acquire_questions_num)
 
-                self.get_submodular2(similarity_matrix, label, unlabel, uncertainty_sample, acquire_questions_num)
-
-                # self.get_submodular(uncertainty_sample, data, acquire_questions_num,
-                #                     model_path=model_path, model_name=model_name, feature_type='query')
+                self.get_submodular(uncertainty_sample, data, acquire_questions_num,
+                                    model_path=model_path, model_name=model_name, feature_type='query')
 
         return 1

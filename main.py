@@ -64,7 +64,7 @@ def main(args):
             "init_question_num": 32,
             "acquire_question_num_per_round": 32,
             "warm_start_random_seed": 0,
-            "sample_method": "No-Deterministic+BALD_submodular1.5+0",
+            "sample_method": "No-Deterministic+BALD_diversity1.5+0",
         },
         {
             "model_name": "CNN",
@@ -79,7 +79,7 @@ def main(args):
             "init_question_num": 32,
             "acquire_question_num_per_round": 32,
             "warm_start_random_seed": 16,
-            "sample_method": "No-Deterministic+BALD_submodular1.5+16",
+            "sample_method": "No-Deterministic+BALD_diversity1.5+16",
         },
         {
             "model_name": "CNN",
@@ -94,7 +94,7 @@ def main(args):
             "init_question_num": 32,
             "acquire_question_num_per_round": 32,
             "warm_start_random_seed": 32,
-            "sample_method": "No-Deterministic+BALD_submodular1.5+32",
+            "sample_method": "No-Deterministic+BALD_diversity1.5+32",
         },
         {
             "model_name": "CNN",
@@ -109,7 +109,7 @@ def main(args):
             "init_question_num": 32,
             "acquire_question_num_per_round": 32,
             "warm_start_random_seed": 64,
-            "sample_method": "No-Deterministic+BALD_submodular1.5+64",
+            "sample_method": "No-Deterministic+BALD_diversity1.5+64",
         },
         {
             "model_name": "CNN",
@@ -124,7 +124,7 @@ def main(args):
             "init_question_num": 32,
             "acquire_question_num_per_round": 32,
             "warm_start_random_seed": 128,
-            "sample_method": "No-Deterministic+BALD_submodular1.5+128",
+            "sample_method": "No-Deterministic+BALD_diversity1.5+128",
         },
 
 

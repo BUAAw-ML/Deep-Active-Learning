@@ -35,7 +35,8 @@ class CNN(nn.Module):
         self.dropout = nn.Dropout(p=dropout_p)
         
         hidden_size = word_out_channels * 2 + 1
-        self.linear = nn.Linear(hidden_size, output_size)
+        self.linear = nn.Linear(hidden_size, hidden_size//2)
+        self.linear2 = nn.Linear(hidden_size//2, output_size)
 
     def forward(self, questions, answers, encoder_only=False):
 
@@ -55,5 +56,7 @@ class CNN(nn.Module):
 
         join_features = self.dropout(join_features)
         output = self.linear(join_features)
+        output = self.dropout(output)
+        output = self.linear2(output)
 
         return output

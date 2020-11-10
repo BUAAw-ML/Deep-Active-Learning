@@ -49,7 +49,8 @@ class BiLSTM(nn.Module):
             hidden_size += 1
 
         self.dropout = nn.Dropout(p=dropout_p)
-        self.linear = nn.Linear(hidden_size, output_size)
+        self.linear = nn.Linear(hidden_size, hidden_size//2)
+        self.linear2 = nn.Linear(hidden_size//2, output_size)
 
     def forward(self, questions, answers, wordslen_q, wordslen_a, encoder_only=False):
 
@@ -72,5 +73,7 @@ class BiLSTM(nn.Module):
 
         join_features = self.dropout(join_features)
         output = self.linear(join_features)
+        output = self.dropout(output)
+        output = self.linear2(output)
 
         return output

@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 class EncoderCNN(nn.Module):
 
-    def __init__(self, vocab_size, embedding_size, out_channels = 100, dropout_p=0):
+    def __init__(self, vocab_size, embedding_size, out_channels = 100, dropout_p=0.5):
         
         super(EncoderCNN, self).__init__()
         

@@ -50,10 +50,10 @@ def main(args):
     task_seq = [
         # acquire_method(sub_acquire_method): random(""), no-dete("DAL","BALD"), dete("coreset","entropy",...)
         # ../../datasets/answer_selection/YahooCQA/data/data-FD/
-        #evidence, diversity
+        #evidence, diversity # BiLSTM CNN
         {
-            "model_name": "LSTM",
-            "group_name": "[tkde]LSTM+Pets+MRR+160+160",
+            "model_name": "BiLSTM",
+            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
@@ -67,8 +67,8 @@ def main(args):
             "sample_method": "No-Deterministic+DALLL2Layer+0",
         },
         {
-            "model_name": "LSTM",
-            "group_name": "[tkde]LSTM+Pets+MRR+160+160",
+            "model_name": "BiLSTM",
+            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "no-dete",
@@ -83,8 +83,8 @@ def main(args):
         },
 
         {
-            "model_name": "LSTM",
-            "group_name": "[tkde]LSTM+Pets+MRR+160+160",
+            "model_name": "BiLSTM",
+            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "random",
@@ -98,8 +98,8 @@ def main(args):
             "sample_method": "No-Deterministic+randommm2Layer+0",
         },
         {
-            "model_name": "LSTM",
-            "group_name": "[tkde]LSTM+Pets+MRR+160+160",
+            "model_name": "BiLSTM",
+            "group_name": "[tkde]BiLSTM+Pets+MRR+160+160",
             "max_performance": 0.80,
             "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
             "acquire_method": "random",

@@ -447,7 +447,8 @@ class Acquisition(object):
             tag_arr = []
             score_arr = []
             real_tag_arr = []
-            sigma_total = torch.zeros((nsamp, words_q.size(0)))
+            if evi:
+                sigma_total = torch.zeros((nsamp, words_q.size(0)))
             for itr in range(nsamp):
 
                 if model_name == 'BiLSTM':
@@ -461,7 +462,8 @@ class Acquisition(object):
                 st = sorted(zip(sort_info, score, tag, data['tags']), key=lambda p: p[0])
                 _, origin_score, origin_tag, real_tag = zip(*st)
 
-                sigma_total[itr] = torch.sum(output, -1)
+                if evi:
+                    sigma_total[itr] = torch.sum(output, -1)
 
                 tag_arr.append(list(origin_tag))
                 score_arr.append(list(origin_score))

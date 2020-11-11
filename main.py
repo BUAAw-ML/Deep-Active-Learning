@@ -36,7 +36,7 @@ def parse_args():
     parser.add_argument('--target_size', type=int, default=2, help='')
     parser.add_argument('--word_out_channels', type=int, default=200, help='')
     parser.add_argument('--result_path', default="result/YahooCQA/",help='')
-    parser.add_argument('--device', type=int, default=[0], help='')
+    parser.add_argument('--device', type=int, default=[1], help='')
     parser.add_argument('--sampling_number', type=int, default=3, help='')
 
     args = parser.parse_args()
@@ -51,6 +51,36 @@ def main(args):
         # acquire_method(sub_acquire_method): random(""), no-dete("DAL","BALD"), dete("coreset","entropy",...)
         # ../../datasets/answer_selection/YahooCQA/data/data-FD/
         #evidence, diversity # BiLSTM CNN
+        {
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
+            "max_performance": 0.80,
+            "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
+            "acquire_method": "no-dete",
+            "sub_acquire_method": "DAL",
+            "unsupervised_method": '',
+            "submodular_k": 1.5,
+            "num_acquisitions_round": 50,
+            "init_question_num": 32,
+            "acquire_question_num_per_round": 32,
+            "warm_start_random_seed": 0,
+            "sample_method": "No-Deterministic+DALLL2Layer+0",
+        },
+        {
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
+            "max_performance": 0.80,
+            "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
+            "acquire_method": "no-dete",
+            "sub_acquire_method": "DAL",
+            "unsupervised_method": '',
+            "submodular_k": 1.5,
+            "num_acquisitions_round": 50,
+            "init_question_num": 32,
+            "acquire_question_num_per_round": 32,
+            "warm_start_random_seed": 16,
+            "sample_method": "No-Deterministic+DALLL2Layer+16",
+        },
         {
             "model_name": "CNN",
             "group_name": "[tkde]CNN+Pets+MRR+160+160",
@@ -97,6 +127,36 @@ def main(args):
             "sample_method": "No-Deterministic+DALLL2Layer+128",
         },
 
+        {
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
+            "max_performance": 0.80,
+            "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
+            "acquire_method": "random",
+            "sub_acquire_method": "",
+            "unsupervised_method": '',
+            "submodular_k": 1.5,
+            "num_acquisitions_round": 50,
+            "init_question_num": 32,
+            "acquire_question_num_per_round": 32,
+            "warm_start_random_seed": 0,
+            "sample_method": "No-Deterministic+randommm2Layer+0",
+        },
+        {
+            "model_name": "CNN",
+            "group_name": "[tkde]CNN+Pets+MRR+160+160",
+            "max_performance": 0.80,
+            "data_path": "../../datasets/answer_selection/YahooCQA/data/data-Pets/",
+            "acquire_method": "random",
+            "sub_acquire_method": "",
+            "unsupervised_method": '',
+            "submodular_k": 1.5,
+            "num_acquisitions_round": 50,
+            "init_question_num": 32,
+            "acquire_question_num_per_round": 32,
+            "warm_start_random_seed": 16,
+            "sample_method": "No-Deterministic+randommm2Layer+16",
+        },
         {
             "model_name": "CNN",
             "group_name": "[tkde]CNN+Pets+MRR+160+160",
